@@ -27,6 +27,11 @@ class ToDoStore {
     });
   }
 
+  @computed
+  get unfinishedTodos() {
+    return this.todoList.filter(todo => !todo.completed);
+  }
+
   createTodo(title, deadline) {
     var id = Date.now();
     this.todos[id] = {
@@ -41,6 +46,6 @@ class ToDoStore {
   }
 }
 
-var todoStore = (window.todoStore = new ToDoStore());
+var todoStore = new ToDoStore();
 
 export default todoStore;

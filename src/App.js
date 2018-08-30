@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react";
 import {
   HeaderAtom,
   BodyAtom,
@@ -10,20 +11,42 @@ import {
 } from "./components/components-index.jsx";
 
 import toDoStore from "./stores/todoStore";
+import navigationStore from "./stores/navigationStore";
 
+@observer
 class App extends Component {
+  renderView() {
+    if (navigationStore.currentView === "todo-list") {
+      return <TodoListView store={toDoStore} />;
+    }
+    if (navigationStore.currentView === "weather-list") {
+      return <WeatherView />;
+    }
+  }
+  navigateToView(view) {
+    navigationStore.setView(view);
+  }
   render() {
     return (
       <div className="App">
         <HeaderAtom>
           <LogoMolecule />
         </HeaderAtom>
-        <BodyAtom>
-          <TodoListView store={toDoStore} />
-        </BodyAtom>
+        <BodyAtom>{this.renderView()}</BodyAtom>
         <FooterAtom>
-          <FooterTabMolecule title="TODO" icon="list" alerts="2" selected />
-          <FooterTabMolecule title="WEATHER" icon="sun" />
+          <FooterTabMolecule
+            onClick={this.navigateToView.bind(this, "todo-list")}
+            title="TODO"
+            icon="list"
+            alerts={toDoStore.unfinishedTodos.length}
+            selected={navigationStore.currentView === "todo-list"}
+          />
+          <FooterTabMolecule
+            onClick={this.navigateToView.bind(this, "weather-list")}
+            title="WEATHER"
+            icon="sun"
+            selected={navigationStore.currentView === "weather-list"}
+          />
         </FooterAtom>
       </div>
     );
