@@ -37,6 +37,7 @@ class TodoItemOrganism extends Component {
         />
         <CheckboxMolecule checked={this.props.completed} />
         <ToDoLabel>{this.props.title}</ToDoLabel>
+        <ToDoDate>{this.props.deadline.toLocaleDateString()}</ToDoDate>
       </ToDoListItem>
     );
   }
@@ -49,10 +50,17 @@ const ToDoListItem = styled(ListItemAtom)`
   margin-bottom: 10px;
 `;
 
+const ToDoDate = styled.span`
+  font-size: 10px;
+  color: gray;
+  line-height: 40px;
+`;
 const ToDoLabel = styled.span`
   margin-left: 10px;
   line-height: 40px;
   display: inline-block;
+  padding-left: 10px;
+  flex: 1;
 `;
 
 const ToDoBanner = styled.span`

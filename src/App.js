@@ -9,6 +9,8 @@ import {
   WeatherView
 } from "./components/components-index.jsx";
 
+import toDoStore from "./stores/todoStore";
+
 class App extends Component {
   render() {
     return (
@@ -17,11 +19,11 @@ class App extends Component {
           <LogoMolecule />
         </HeaderAtom>
         <BodyAtom>
-          <WeatherView />
+          <TodoListView store={toDoStore} />
         </BodyAtom>
         <FooterAtom>
-          <FooterTabMolecule title="TODO" icon="list" alerts="2" />
-          <FooterTabMolecule title="WEATHER" icon="sun" selected />
+          <FooterTabMolecule title="TODO" icon="list" alerts="2" selected />
+          <FooterTabMolecule title="WEATHER" icon="sun" />
         </FooterAtom>
       </div>
     );

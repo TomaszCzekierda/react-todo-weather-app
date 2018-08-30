@@ -3,47 +3,60 @@ import { InputAtom, ButtonAtom } from "../../components-index";
 import SectionAtom from "../../atoms/section-atom/section-atom";
 import TodoItemOrganism from "../../organisms/todo-item-organism/todo-item-organism";
 import styled from "styled-components";
+import { observer } from "mobx-react";
 
+@observer
 class TodoListView extends Component {
-  todos = [
-    {
-      id: 1,
-      title: "Get milk!",
-      date: new Date(new Date().setDate(new Date().getDate() + 4))
-    },
-    {
-      id: 2,
-      title: "Fix mailbox!",
-      date: new Date(new Date().setDate(new Date().getDate() - 2))
-    },
-    {
-      id: 3,
-      title: "Call Saul",
-      date: new Date(new Date().setDate(new Date().getDate())),
-      completed: true
-    }
-  ];
+  constructor(props) {
+    super(props);
+    this.state = {
+      todoValue: "",
+      toDoDate: new Date()
+    };
+  }
+
+  handleToDoTitleChange(event) {
+    this.setState({ todoValue: event.target.value });
+  }
+
+  createToDo(event) {
+    this.props.store.createTodo(this.state.todoValue, this.state.toDoDate);
+  }
+
+  toggleCompleted(todo) {
+    this.props.store.toggleCompleted(todo);
+  }
+
   render() {
     return (
       <React.Fragment>
         <SectionAtom>
-          <InputAtom type="text" placeholder="Type your todo" />
+          <InputAtom
+            type="text"
+            placeholder="Type your todo"
+            value={this.state.todoValue}
+            onChange={this.handleToDoTitleChange.bind(this)}
+          />
         </SectionAtom>
         <DateAndAddSection lower>
-          <InputAtom type="date" placeholder="yyyy-mm-dd" />
-          <ButtonAtom>Add</ButtonAtom>
+          <InputAtom
+            type="date"
+            placeholder="yyyy-mm-dd"
+            defaultValue={this.state.toDoDate.toLocaleDateString()}
+          />
+          <ButtonAtom onClick={this.createToDo.bind(this)}>Add</ButtonAtom>
         </DateAndAddSection>
         <SectionAtom lower>
-          {this.todos.map(function(todo, index) {
-            return (
+          {this.props.store.todoList.map(todo => (
+            <div key={todo.id} onClick={this.toggleCompleted.bind(this, todo)}>
               <TodoItemOrganism
-                key={todo.id}
+                data-id={todo.id}
                 title={todo.title}
                 completed={todo.completed}
                 deadline={todo.date}
               />
-            );
-          })}
+            </div>
+          ))}
         </SectionAtom>
       </React.Fragment>
     );
