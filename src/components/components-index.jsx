@@ -8,8 +8,10 @@ import ButtonAtom from "./atoms/button-atom/button-atom";
 import LogoMolecule from "./molecules/logo-molecule/logo-molecule";
 import FooterTabMolecule from "./molecules/footer-tab-molecule/footer-tab-molecule";
 import TextBoxMolecule from "./molecules/text-box-molecule/text-box-molecule";
+import LoaderMolecule from "./molecules/loader-molecule/loader-molecule";
 
 import TodoListView from "./views/todo-list-view/todo-list-view";
+import WeatherView from "./views/weather-view/weather-view";
 
 export {
   HeaderAtom,
@@ -21,5 +23,7 @@ export {
   LogoMolecule,
   FooterTabMolecule,
   TextBoxMolecule,
-  TodoListView
+  LoaderMolecule,
+  TodoListView,
+  WeatherView
 };

@@ -5,7 +5,8 @@ import {
   FooterAtom,
   LogoMolecule,
   FooterTabMolecule,
-  TodoListView
+  TodoListView,
+  WeatherView
 } from "./components/components-index.jsx";
 
 class App extends Component {
@@ -16,7 +17,7 @@ class App extends Component {
           <LogoMolecule />
         </HeaderAtom>
         <BodyAtom>
-          <TodoListView />
+          <WeatherView />
         </BodyAtom>
         <FooterAtom>
           <FooterTabMolecule title="TODO" icon="list" selected />

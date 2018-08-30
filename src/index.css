@@ -11,6 +11,8 @@ h1 {
 .App {
   display: flex;
   flex-direction: column;
+
+  overflow: auto;
 }
 
 html,
