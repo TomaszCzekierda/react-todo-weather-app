@@ -20,8 +20,8 @@ class App extends Component {
           <WeatherView />
         </BodyAtom>
         <FooterAtom>
-          <FooterTabMolecule title="TODO" icon="list" selected />
-          <FooterTabMolecule title="WEATHER" icon="sun" />
+          <FooterTabMolecule title="TODO" icon="list" alerts="2" />
+          <FooterTabMolecule title="WEATHER" icon="sun" selected />
         </FooterAtom>
       </div>
     );

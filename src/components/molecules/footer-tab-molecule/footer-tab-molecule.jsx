@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SVGInline from "react-svg-inline";
 import sunIcon from "./sun-solid.svg";
 import listIcon from "./th-list-solid.svg";
+import BadgeItem from "../../atoms/badge-atom/badge-atom";
 
 class FooterTabMolecule extends Component {
   getTabIcon(icon) {
@@ -11,10 +12,15 @@ class FooterTabMolecule extends Component {
     }
     return <SVGInline svg={listIcon} />;
   }
-
+  addBadge(alerts) {
+    if (alerts && alerts !== "0") {
+      return <FooterBadge>{alerts}</FooterBadge>;
+    }
+  }
   render() {
     return (
       <FooterTabWrapper {...this.props}>
+        {this.addBadge(this.props.alerts)}
         <FooterTabIcon>{this.getTabIcon(this.props.icon)}</FooterTabIcon>
         <FooterTabText>{this.props.title}</FooterTabText>
       </FooterTabWrapper>
@@ -22,10 +28,17 @@ class FooterTabMolecule extends Component {
   }
 }
 
+const FooterBadge = styled(BadgeItem)`
+  position: absolute;
+  right: 50%;
+  margin-right: -40px;
+`;
+
 const FooterTabWrapper = styled.div`
   flex-grow: 1;
   padding: 10px;
   text-align: center;
+  position: relative;
   background: ${props => (props.selected ? "gray" : "transparent")};
 `;
 
