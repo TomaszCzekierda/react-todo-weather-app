@@ -9,8 +9,11 @@ const ButtonAtom = styled.button`
   display: block;
   width: 100%;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: lightgray;
+  }
+  &:disabled {
+    opacity: 0.5;
   }
 `;
 

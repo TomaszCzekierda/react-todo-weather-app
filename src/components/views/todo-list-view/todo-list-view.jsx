@@ -4,27 +4,39 @@ import SectionAtom from "../../atoms/section-atom/section-atom";
 import TodoItemOrganism from "../../organisms/todo-item-organism/todo-item-organism";
 import styled from "styled-components";
 import { observer } from "mobx-react";
+import TodoListStore from "./todo-list-store";
 
 @observer
 class TodoListView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      todoValue: "",
-      toDoDate: new Date()
-    };
-  }
-
-  handleToDoTitleChange(event) {
-    this.setState({ todoValue: event.target.value });
+    this.viewStore = new TodoListStore();
   }
 
   createToDo(event) {
-    this.props.store.createTodo(this.state.todoValue, this.state.toDoDate);
+    this.props.store.createTodo(
+      this.viewStore.form.title,
+      new Date(this.viewStore.form.deadline)
+    );
+    this.viewStore.clearForm();
+  }
+
+  onChange(event) {
+    this.viewStore.setFormValue(event.target.name, event.target.value);
   }
 
   toggleCompleted(todo) {
     this.props.store.toggleCompleted(todo);
+  }
+
+  showErrorMessages() {
+    return (
+      <SectionAtom lower>
+        {this.viewStore.validationMessages.map((msg, index) => (
+          <ValidationMessage key={index}>{msg}</ValidationMessage>
+        ))}
+      </SectionAtom>
+    );
   }
 
   render() {
@@ -34,18 +46,29 @@ class TodoListView extends Component {
           <InputAtom
             type="text"
             placeholder="Type your todo"
-            value={this.state.todoValue}
-            onChange={this.handleToDoTitleChange.bind(this)}
+            name="title"
+            value={this.viewStore.form.title}
+            isValid={this.viewStore.validate.title.isValid}
+            onChange={this.onChange.bind(this)}
           />
         </SectionAtom>
         <DateAndAddSection lower>
           <InputAtom
             type="date"
+            name="deadline"
             placeholder="yyyy-mm-dd"
-            defaultValue={this.state.toDoDate.toLocaleDateString()}
+            onChange={this.onChange.bind(this)}
+            isValid={this.viewStore.validate.deadline.isValid}
+            defaultValue={this.viewStore.form.deadline}
           />
-          <ButtonAtom onClick={this.createToDo.bind(this)}>Add</ButtonAtom>
+          <ButtonAtom
+            onClick={this.createToDo.bind(this)}
+            disabled={!this.viewStore.isValid}
+          >
+            Add
+          </ButtonAtom>
         </DateAndAddSection>
+        {!this.viewStore.isValid ? this.showErrorMessages() : ""}
         <SectionAtom lower>
           {this.props.store.todoList.map(todo => (
             <div key={todo.id} onClick={this.toggleCompleted.bind(this, todo)}>
@@ -76,6 +99,12 @@ const DateAndAddSection = styled(SectionAtom)`
   & > *:last-child {
     margin-right: 0;
   }
+`;
+
+const ValidationMessage = styled.p`
+  color: red;
+  font-size: 12px;
+  text-align: center;
 `;
 
 export default TodoListView;
