@@ -94,7 +94,7 @@ module.exports = function(proxy, allowedHost) {
       app.use(noopServiceWorkerMiddleware());
     },
     setup: function(app) {
-      app.use("/api", apiMocker("mockApi/api"));
+      app.use("/api", apiMocker("mockApi"));
     }
   };
 };

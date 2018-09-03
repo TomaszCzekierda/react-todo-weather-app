@@ -2,47 +2,33 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { LoaderMolecule, SectionAtom } from "../../components-index";
 import WeatherItemOrganism from "../../organisms/weather-item-organism/weather-item-organism";
+import { observer } from "mobx-react";
 
+@observer
 class WeatherView extends Component {
-  weather = [
-    {
-      date: new Date("2018-08-30"),
-      forecast: "sun"
-    },
-    {
-      date: new Date("2018-08-31"),
-      forecast: "clouds"
-    },
-    {
-      date: new Date("2018-09-01"),
-      forecast: "rain"
-    },
-    {
-      date: new Date("2018-09-02"),
-      forecast: "rain"
-    },
-    {
-      date: new Date("2018-09-03"),
-      forecast: "storm"
-    },
-    {
-      date: new Date("2018-09-04"),
-      forecast: "sun"
-    },
-    {
-      date: new Date("2018-09-01"),
-      forecast: "clouds"
+  constructor(props) {
+    super(props);
+  }
+  componentWillMount() {
+    this.props.store.fetchWeather();
+  }
+
+  renderLoader() {
+    if (this.props.store.state === "pending") {
+      return (
+        <SectionAtom>
+          <LoaderMolecule />
+        </SectionAtom>
+      );
     }
-  ];
+  }
 
   render() {
     return (
       <React.Fragment>
+        {this.renderLoader()}
         <SectionAtom>
-          <LoaderMolecule />
-        </SectionAtom>
-        <SectionAtom lower>
-          {this.weather.map(function(day, index) {
+          {this.props.store.weather.map(function(day, index) {
             return (
               <WeatherItemOrganism
                 key={index}

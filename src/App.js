@@ -11,6 +11,7 @@ import {
 } from "./components/components-index.jsx";
 
 import toDoStore from "./stores/todoStore";
+import weatherStore from "./stores/weatherStore";
 import navigationStore from "./stores/navigationStore";
 
 @observer
@@ -20,7 +21,7 @@ class App extends Component {
       return <TodoListView store={toDoStore} />;
     }
     if (navigationStore.currentView === "weather-list") {
-      return <WeatherView />;
+      return <WeatherView store={weatherStore} />;
     }
   }
   navigateToView(view) {

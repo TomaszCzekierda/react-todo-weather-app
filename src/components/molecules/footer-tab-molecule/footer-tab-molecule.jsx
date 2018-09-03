@@ -36,6 +36,7 @@ const FooterBadge = styled(BadgeItem)`
 
 const FooterTabWrapper = styled.div`
   flex-grow: 1;
+  flex-basis: 0;
   padding: 10px;
   text-align: center;
   position: relative;
