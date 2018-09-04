@@ -17,10 +17,10 @@ import navigationStore from "./stores/navigationStore";
 @observer
 class App extends Component {
   renderView() {
-    if (navigationStore.currentView === "todo-list") {
+    if (navigationStore.isRouteActive("todo-list")) {
       return <TodoListView store={toDoStore} />;
     }
-    if (navigationStore.currentView === "weather-list") {
+    if (navigationStore.isRouteActive("weather-list")) {
       return <WeatherView store={weatherStore} />;
     }
   }
@@ -40,13 +40,13 @@ class App extends Component {
             title="TODO"
             icon="list"
             alerts={toDoStore.unfinishedTodos.length}
-            selected={navigationStore.currentView === "todo-list"}
+            selected={navigationStore.isRouteActive("todo-list")}
           />
           <FooterTabMolecule
             onClick={this.navigateToView.bind(this, "weather-list")}
             title="WEATHER"
             icon="sun"
-            selected={navigationStore.currentView === "weather-list"}
+            selected={navigationStore.isRouteActive("weather-list")}
           />
         </FooterAtom>
       </div>
